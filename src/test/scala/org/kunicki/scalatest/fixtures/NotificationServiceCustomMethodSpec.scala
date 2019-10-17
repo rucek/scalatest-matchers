@@ -8,7 +8,7 @@ class NotificationServiceCustomMethodSpec extends FlatSpec with Goodies {
 
   type Fixture = (User, String, NotificationService, NotificationRepository)
 
-  def testNotificationService()(test: Fixture => Unit): Unit = {
+  def withNotificationService(test: Fixture => Unit): Unit = {
     val user = User("42", UserService.Email)
     val message = "Hello, Piter!"
     val userService = new UserService
@@ -22,7 +22,7 @@ class NotificationServiceCustomMethodSpec extends FlatSpec with Goodies {
     }
   }
 
-  it should "create a notification" in testNotificationService() { fixture =>
+  it should "create a notification" in withNotificationService { fixture =>
     // given
     val (user, message, notificationService, notificationRepository) = fixture
 
