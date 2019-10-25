@@ -7,38 +7,48 @@ import scala.concurrent.Future
 
 class NotificationServiceFixtureSpec extends fixture.FlatSpec with Goodies {
 
-  case class FixtureParam(user: User, message: String, notificationService: NotificationService, notificationRepository: NotificationRepository) {
+  case class FixtureParam(user: User, notificationService: NotificationService) {
 
-    def findUserNotification: Future[Option[Notification]] = notificationRepository.findByUser(user)
+    def findUserNotification: Future[Option[Notification]] =
+      notificationService.findByUserId(user.id)
   }
 
   override protected def withFixture(test: OneArgTest): Outcome = {
     val user = User("42", UserService.Email)
-    val message = "Hello, Piter!"
     val userService = new UserService
     val notificationRepository = new NotificationRepository
-    val notificationService = new NotificationService(userService, notificationRepository)
-
-    val fixtureParam = FixtureParam(user, message, notificationService, notificationRepository)
+    val notificationService = new NotificationService("[TEST]", userService, notificationRepository)
 
     try {
-      super.withFixture(test.toNoArgTest(fixtureParam))
+      withFixture(test.toNoArgTest(FixtureParam(user, notificationService)))
     } finally {
       notificationRepository.shutdown()
     }
   }
 
-  it should "create a notification" in { implicit f =>
+  it should "create a notification" in { f =>
     // given
+    import f._
 
     // when
-    notify()
+    notificationService.notify(user.id, "Hello, Joker")
 
     // then
     eventually {
-      f.findUserNotification.futureValue.value.message shouldBe f.message
+      findUserNotification.futureValue.value.message shouldBe "[TEST] Hello, Joker"
     }
   }
 
-  private def notify()(implicit f: FixtureParam): Unit = f.notificationService.notify(f.user.id, f.message).futureValue
+  it should "do something else" in { implicit f =>
+    // given
+
+    // when
+    doSomethingElse()
+
+    // then
+    succeed
+  }
+
+  private def doSomethingElse()(implicit f: FixtureParam): Future[Unit] =
+    f.notificationService.doSomethingElse(f.user.id)
 }

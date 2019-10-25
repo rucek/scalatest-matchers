@@ -31,11 +31,19 @@ object UserService {
   val Email = "test@example.com"
 }
 
-class NotificationService(userService: UserService, notificationRepository: NotificationRepository) {
+class NotificationService(messagePrefix: String, userService: UserService, notificationRepository: NotificationRepository) {
 
   def notify(userId: String, message: String)(implicit ec: ExecutionContext): Future[Unit] =
     for {
       user <- userService.findById(userId)
-      notification <- notificationRepository.create(Notification(user, message))
+      notification <- notificationRepository.create(Notification(user, s"$messagePrefix $message"))
     } yield notification
+
+  def findByUserId(userId: String)(implicit ec: ExecutionContext): Future[Option[Notification]] =
+    for {
+      user <- userService.findById(userId)
+      notification <- notificationRepository.findByUser(user)
+    } yield notification
+
+  def doSomethingElse(userId: String): Future[Unit] = Future.successful(())
 }

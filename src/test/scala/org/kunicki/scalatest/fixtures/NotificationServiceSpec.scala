@@ -9,40 +9,36 @@ class NotificationServiceSpec extends FlatSpec with Goodies {
   it should "create a notification" in {
     // given
     val user = User("42", UserService.Email)
-    val message = "Hello, Piter!"
     val userService = new UserService
     val notificationRepository = new NotificationRepository
-    val notificationService = new NotificationService(userService, notificationRepository)
+    val notificationService = new NotificationService("[TEST]", userService, notificationRepository)
 
     // when
     try {
-      notificationService.notify(user.id, message).futureValue
+      notificationService.notify(user.id, "Hello, Joker")
 
       // then
       eventually {
-        notificationRepository.findByUser(user).futureValue.value.message shouldBe message
+        notificationService.findByUserId(user.id).futureValue.value.message shouldBe "[TEST] Hello, Joker"
       }
     } finally {
       notificationRepository.shutdown()
     }
   }
 
-  it should "create another notification" in {
+  it should "do something else" in {
     // given
     val user = User("42", UserService.Email)
-    val message = "Hello, Piter!"
     val userService = new UserService
     val notificationRepository = new NotificationRepository
-    val notificationService = new NotificationService(userService, notificationRepository)
+    val notificationService = new NotificationService("[TEST]", userService, notificationRepository)
 
     // when
     try {
-      notificationService.notify(user.id, message)
+      notificationService.doSomethingElse(user.id)
 
       // then
-      eventually {
-        notificationRepository.findByUser(user).futureValue.value.message shouldBe message
-      }
+      succeed
     } finally {
       notificationRepository.shutdown()
     }
