@@ -3,7 +3,7 @@ package org.kunicki.scalatest.examples
 import org.kunicki.scalatest.BaseSpec
 import org.kunicki.scalatest.examples.Collections._
 import org.scalatest.Inspectors._
-import org.scalatest.{LoneElement, OptionValues}
+import org.scalatest.{Inspectors, LoneElement, OptionValues}
 
 object Collections {
 
@@ -55,18 +55,18 @@ class SingleElement extends BaseSpec with LoneElement {
 class CompareToOther extends BaseSpec {
 
   it should "compare to another collection" in {
-    numbers shouldBe Set(2, 4, 5, 6)
+    numbers shouldBe numbers.toSet
   }
 
   //region same elements
   it should "check elements" in {
-    numbers should contain theSameElementsAs Set(2, 4, 5, 6)
+    numbers should contain theSameElementsAs numbers.toSet
   }
   //endregion
 
   //region in order
   it should "check elements in order" in {
-    numbers should contain theSameElementsInOrderAs List(4, 2, 5, 6)
+    numbers should contain theSameElementsInOrderAs numbers.reverse
   }
   //endregion
 }
