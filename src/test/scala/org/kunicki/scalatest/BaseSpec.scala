@@ -1,5 +1,6 @@
 package org.kunicki.scalatest
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-trait BaseSpec extends FlatSpec with Matchers
+trait BaseSpec extends AnyFlatSpec with Matchers

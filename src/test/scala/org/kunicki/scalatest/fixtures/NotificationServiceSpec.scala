@@ -1,10 +1,10 @@
 package org.kunicki.scalatest.fixtures
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class NotificationServiceSpec extends FlatSpec with Goodies {
+class NotificationServiceSpec extends AnyFlatSpec with Goodies {
 
   it should "create a notification" in {
     // given

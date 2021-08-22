@@ -2,7 +2,8 @@ package org.kunicki.scalatest.examples
 
 import org.kunicki.scalatest.BaseSpec
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
-import org.scalatest.{AsyncFlatSpec, Matchers}
+import org.scalatest.flatspec.AsyncFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}

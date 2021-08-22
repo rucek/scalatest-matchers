@@ -1,11 +1,11 @@
 package org.kunicki.scalatest.fixtures
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class NotificationServiceCustomMethodSpec extends FlatSpec with Goodies {
+class NotificationServiceCustomMethodSpec extends AnyFlatSpec with Goodies {
 
   case class Fixture(user: User, notificationService: NotificationService) {
 

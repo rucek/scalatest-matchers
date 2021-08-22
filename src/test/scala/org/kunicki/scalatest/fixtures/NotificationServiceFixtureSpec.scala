@@ -1,11 +1,12 @@
 package org.kunicki.scalatest.fixtures
 
-import org.scalatest.{Outcome, fixture}
+import org.scalatest.Outcome
+import org.scalatest.flatspec.FixtureAnyFlatSpec
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class NotificationServiceFixtureSpec extends fixture.FlatSpec with Goodies {
+class NotificationServiceFixtureSpec extends FixtureAnyFlatSpec with Goodies {
 
   case class FixtureParam(user: User, notificationService: NotificationService) {
 
