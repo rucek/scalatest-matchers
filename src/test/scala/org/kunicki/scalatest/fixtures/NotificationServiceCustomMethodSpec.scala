@@ -7,20 +7,19 @@ import scala.concurrent.Future
 
 class NotificationServiceCustomMethodSpec extends AnyFlatSpec with Goodies {
 
-  case class Fixture(user: User, notificationService: NotificationService) {
+  case class Fixture(userId: String, notificationService: NotificationService) {
 
     def findUserNotification: Future[Option[Notification]] =
-      notificationService.findByUserId(user.id)
+      notificationService.findByUserId(userId)
   }
 
   def withNotificationService(prefix: String = "[TEST]")(test: Fixture => Unit): Unit = {
-    val user = User("42", UserService.Email)
     val userService = new UserService
     val notificationRepository = new NotificationRepository
     val notificationService = new NotificationService(prefix, userService, notificationRepository)
 
     try {
-      test(Fixture(user, notificationService))
+      test(Fixture("42", notificationService))
     } finally {
       notificationRepository.shutdown()
     }
@@ -31,7 +30,7 @@ class NotificationServiceCustomMethodSpec extends AnyFlatSpec with Goodies {
     import f._
 
     // when
-    notificationService.notify(user.id, "Hello, Joker")
+    notificationService.notify(userId, "Hello, Joker")
 
     // then
     eventually {
@@ -43,7 +42,7 @@ class NotificationServiceCustomMethodSpec extends AnyFlatSpec with Goodies {
     // given
 
     // when
-    f.notificationService.doSomethingElse(f.user.id)
+    f.notificationService.doSomethingElse(f.userId)
 
     // then
     succeed

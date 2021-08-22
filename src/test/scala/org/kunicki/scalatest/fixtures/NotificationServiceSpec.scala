@@ -8,18 +8,18 @@ class NotificationServiceSpec extends AnyFlatSpec with Goodies {
 
   it should "create a notification" in {
     // given
-    val user = User("42", UserService.Email)
+    val userId = "42"
     val userService = new UserService
     val notificationRepository = new NotificationRepository
     val notificationService = new NotificationService("[TEST]", userService, notificationRepository)
 
     // when
     try {
-      notificationService.notify(user.id, "Hello, Joker")
+      notificationService.notify(userId, "Hello, Joker")
 
       // then
       eventually {
-        notificationService.findByUserId(user.id).futureValue.value.message shouldBe "[TEST] Hello, Joker"
+        notificationService.findByUserId(userId).futureValue.value.message shouldBe "[TEST] Hello, Joker"
       }
     } finally {
       notificationRepository.shutdown()
@@ -28,14 +28,13 @@ class NotificationServiceSpec extends AnyFlatSpec with Goodies {
 
   it should "do something else" in {
     // given
-    val user = User("42", UserService.Email)
     val userService = new UserService
     val notificationRepository = new NotificationRepository
     val notificationService = new NotificationService("[TEST]", userService, notificationRepository)
 
     // when
     try {
-      notificationService.doSomethingElse(user.id)
+      notificationService.doSomethingElse("42")
 
       // then
       succeed
