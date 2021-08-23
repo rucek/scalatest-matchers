@@ -45,7 +45,7 @@ class OptionHasValue extends BaseSpec with OptionValues {
 class EitherHasValue extends BaseSpec with EitherValues {
 
   it should "check if an Either is right with get" in {
-    either.value shouldBe 1
+    either.right.get shouldBe 1
   }
 
   //region either value
