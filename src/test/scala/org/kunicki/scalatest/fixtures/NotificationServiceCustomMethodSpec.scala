@@ -13,7 +13,7 @@ class NotificationServiceCustomMethodSpec extends AnyFlatSpec with Goodies {
       notificationService.findByUserId(userId)
   }
 
-  def withNotificationService(prefix: String = "TEST")(test: Fixture => Unit): Unit = {
+  def withNotificationService(prefix: String = "TEST")(test: Fixture => Any): Unit = {
     val userService = new UserService
     val notificationRepository = new NotificationRepository
     val notificationService = new NotificationService(s"[$prefix]", userService, notificationRepository)
