@@ -8,7 +8,9 @@ import scala.concurrent.Future
 
 class NotificationServiceFixtureSpec extends FixtureAnyFlatSpec with Goodies {
 
-  case class FixtureParam(userId: String, notificationService: NotificationService) {
+  override type FixtureParam = Fixture
+
+  case class Fixture(userId: String, notificationService: NotificationService) {
 
     def findUserNotification: Future[Option[Notification]] =
       notificationService.findByUserId(userId)
@@ -20,7 +22,7 @@ class NotificationServiceFixtureSpec extends FixtureAnyFlatSpec with Goodies {
     val notificationService = new NotificationService("[TEST]", userService, notificationRepository)
 
     try {
-      withFixture(test.toNoArgTest(FixtureParam("42", notificationService)))
+      withFixture(test.toNoArgTest(Fixture("42", notificationService)))
     } finally {
       notificationRepository.shutdown()
     }
@@ -49,6 +51,6 @@ class NotificationServiceFixtureSpec extends FixtureAnyFlatSpec with Goodies {
     succeed
   }
 
-  private def doSomethingElse()(implicit f: FixtureParam): Future[Unit] =
+  private def doSomethingElse()(implicit f: Fixture): Future[Unit] =
     f.notificationService.doSomethingElse(f.userId)
 }
