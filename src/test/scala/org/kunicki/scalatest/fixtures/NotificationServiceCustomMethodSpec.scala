@@ -34,7 +34,7 @@ class NotificationServiceCustomMethodSpec extends AnyFlatSpec with Goodies {
 
     // then
     eventually {
-      f.findUserNotification.futureValue.value.message shouldBe "[FOO] Hello, world"
+      findUserNotification.futureValue.value.message shouldBe "[FOO] Hello, world"
     }
   }
 
