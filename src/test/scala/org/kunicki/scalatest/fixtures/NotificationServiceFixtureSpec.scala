@@ -31,11 +31,11 @@ class NotificationServiceFixtureSpec extends FixtureAnyFlatSpec with Goodies {
     import f._
 
     // when
-    notificationService.notify(userId, "Hello, Joker")
+    notificationService.notify(userId, "Hello, world")
 
     // then
     eventually {
-      findUserNotification.futureValue.value.message shouldBe "[TEST] Hello, Joker"
+      findUserNotification.futureValue.value.message shouldBe "[TEST] Hello, world"
     }
   }
 

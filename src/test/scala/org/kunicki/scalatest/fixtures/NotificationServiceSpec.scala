@@ -15,11 +15,11 @@ class NotificationServiceSpec extends AnyFlatSpec with Goodies {
 
     // when
     try {
-      notificationService.notify(userId, "Hello, Joker")
+      notificationService.notify(userId, "Hello, world")
 
       // then
       eventually {
-        notificationService.findByUserId(userId).futureValue.value.message shouldBe "[TEST] Hello, Joker"
+        notificationService.findByUserId(userId).futureValue.value.message shouldBe "[TEST] Hello, world"
       }
     } finally {
       notificationRepository.shutdown()
